@@ -3,11 +3,11 @@ void window::create(unsigned int weight, unsigned int height, const sf::String& 
 	window.create(sf::VideoMode(weight, height), title);
 }
 void window::draw(sf::Drawable& shape, sf::Color color) {
-	// `shape` türünün sf::Shape olduðundan emin olun
+	
 	if (auto* shapePtr = dynamic_cast<sf::Shape*>(&shape)) {
-		shapePtr->setFillColor(color); // Þeklin rengini ayarla
+		shapePtr->setFillColor(color); 
 	}
-	window.draw(shape); // Þekli çiz
+	window.draw(shape); 
 }
 
 void window::eventControl() {
