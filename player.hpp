@@ -18,7 +18,7 @@ protected:
 	sf::Vector2f place;
 public:
 	
-	
+	player(sf::Vector2f place);
 	virtual void hareket();
 	void setMoving(bool state);
 	virtual bool isMoving();
@@ -30,6 +30,8 @@ public:
 	virtual void playdraw(window& window) = 0;
 	virtual void resolveCollision(const sf::RectangleShape& wall) = 0;
 	
-	void resetPosition(Ball& top);
+	virtual void resetPosition(Ball& top);
+        virtual bool checkCollisionWithCircle(const sf::CircleShape& wall) = 0;
+        virtual void resolveCollision(const sf::CircleShape& wall) = 0;
 	
 };
