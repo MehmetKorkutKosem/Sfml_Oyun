@@ -7,29 +7,29 @@ Ball::Ball()
 {
 }
 
-// Yapýcý fonksiyon
+// YapÃ½cÃ½ fonksiyon
 Ball::Ball(float maxSpeed) : maxSpeed(maxSpeed){
     
 
     velocity = { 0.f, 0.f };
 }
 
-// Çarpýþma kontrolü
+// Ã‡arpÃ½Ã¾ma kontrolÃ¼
 bool Ball::checkCollision(const sf::RectangleShape& wall) {
     sf::FloatRect ballBounds = ballShape.getGlobalBounds();
     sf::FloatRect wallBounds = wall.getGlobalBounds();
-    return ballBounds.intersects(wallBounds); // Çarpýþma varsa true döner
+    return ballBounds.intersects(wallBounds); // Ã‡arpÃ½Ã¾ma varsa true dÃ¶ner
 }
 
 // Topu ekranda hareket ettirme
 void Ball::move() {
-    // Pozisyonu hýz vektörüne göre güncelle
+    // Pozisyonu hÃ½z vektÃ¶rÃ¼ne gÃ¶re gÃ¼ncelle
     int a = ballShape.getRadius();
   
     position.x += velocity.x;
     position.y += velocity.y;
 
-    // Ekran sýnýrlarýnda topu tutma
+    // Ekran sÃ½nÃ½rlarÃ½nda topu tutma
     if (position.x - a < 50) {
    
         position.x = 65;
@@ -41,34 +41,34 @@ void Ball::move() {
         
 
     }
-    if (position.x + a > 950) {
+    if (position.x + a > 940) {
         
-        position.x = 935;
+        position.x = 925;
         
         setspeed(maxSpeed * 0.5);
         setDirection(BYon::sol);
         
        
     }
-    if (position.y - a < 50) {
+    if (position.y - a < 70) {
         
-        position.y = 65;
+        position.y = 85;
         setspeed(maxSpeed * 0.5);
         setDirection(BYon::asagi);
     }
-    if (position.y + a > 950) {
+    if (position.y + a > 925) {
 
-        position.y = 935;
+        position.y = 910;
         setspeed(maxSpeed * 0.5);
         setDirection(BYon::yukari);
     }
 }
 
-// Yön ayarlama
+// YÃ¶n ayarlama
 void Ball::setDirection(BYon yon) {
     switch (yon) {
     case BYon::sag:
-        velocity = { maxSpeed, 0.5f };  // X ekseninde saða hareket
+        velocity = { maxSpeed, 0.5f };  // X ekseninde saÃ°a hareket
         break;
     case BYon::sol:
         velocity = { -maxSpeed, -0.5f }; // X ekseninde sola hareket
@@ -82,13 +82,13 @@ void Ball::setDirection(BYon yon) {
     }
 }
 
-// Çarpýþma kontrolü
+// Ã‡arpÃ½Ã¾ma kontrolÃ¼
 void Ball::checkCollisionWithWall(const sf::RectangleShape& wall) {
     sf::FloatRect ballBounds = ballShape.getGlobalBounds();
     sf::FloatRect wallBounds = wall.getGlobalBounds();
 
     if (ballBounds.intersects(wallBounds)) {
-        // Çarpýþma miktarýný hesapla
+        // Ã‡arpÃ½Ã¾ma miktarÃ½nÃ½ hesapla
         float overlapLeft = ballBounds.left + ballBounds.width - wallBounds.left;
         float overlapRight = wallBounds.left + wallBounds.width - ballBounds.left;
         float overlapTop = ballBounds.top + ballBounds.height - wallBounds.top;
@@ -100,27 +100,27 @@ void Ball::checkCollisionWithWall(const sf::RectangleShape& wall) {
             setDirection(BYon::sol);
             velocity.y = 0;
            
-            // Sola çarptýðýnda saða git
+            // Sola Ã§arptÃ½Ã°Ã½nda saÃ°a git
         }
         else if (overlapRight < overlapLeft && overlapRight < overlapTop && overlapRight < overlapBottom) {
             position.x += 2.f;
             setDirection(BYon::sag);
             velocity.y = 0;
-            // Saða çarptýðýnda sola git
+            // SaÃ°a Ã§arptÃ½Ã°Ã½nda sola git
         }
         else if (overlapTop < overlapLeft && overlapTop < overlapRight && overlapTop < overlapBottom) {
             position.y -= 2.f;
             setDirection(BYon::yukari);
-            velocity.x = 0;// Yukarý çarptýðýnda aþaðý git
+            velocity.x = 0;// YukarÃ½ Ã§arptÃ½Ã°Ã½nda aÃ¾aÃ°Ã½ git
         }
         else if (overlapBottom < overlapLeft && overlapBottom < overlapRight && overlapBottom < overlapTop) {
             position.y += 2.f;
             setDirection(BYon::asagi);
 			velocity.x = 0; 
-            // Aþaðý çarptýðýnda yukarý git
+            // AÃ¾aÃ°Ã½ Ã§arptÃ½Ã°Ã½nda yukarÃ½ git
         }
 
-        maxSpeed*= 0.90f;  // X ekseninde hýz azalýr
+        maxSpeed*= 0.90f;  // X ekseninde hÃ½z azalÃ½r
         
         
     }
@@ -136,11 +136,11 @@ void Ball::setspeed(int newSpeed) {
     maxSpeed = newSpeed;
 }
 
-// Topu çizen fonksiyon
+// Topu Ã§izen fonksiyon
 void Ball::bdraw(window& window) {
     ballShape.setRadius(8.0f);
     ballShape.setPosition(position);
-    window.draw(ballShape,sf::Color::White);  // Topu render window'una çiz
+    window.draw(ballShape,sf::Color::White);  // Topu render window'una Ã§iz
 }
 void Ball::resetPosition(sf::Vector2f respawnPosition) {
     position = respawnPosition;
@@ -153,7 +153,7 @@ void Ball::checkGoalCollision(const sf::RectangleShape& goal) {
     sf::FloatRect goalBounds = goal.getGlobalBounds();
 
     if (ballBounds.intersects(goalBounds)) {
-        // Çarpýþma miktarýný hesapla
+        // Ã‡arpÃ½Ã¾ma miktarÃ½nÃ½ hesapla
         float overlapLeft = ballBounds.left + ballBounds.width - goalBounds.left;
         float overlapRight = goalBounds.left + goalBounds.width - ballBounds.left;
         float overlapTop = ballBounds.top + ballBounds.height - goalBounds.top;
@@ -164,13 +164,13 @@ void Ball::checkGoalCollision(const sf::RectangleShape& goal) {
         if (overlapTop < overlapLeft && overlapTop < overlapRight && overlapTop < overlapBottom) {
             position.y -= 0.2f;
             setDirection(BYon::yukari);
-            velocity.x = 0;// Yukarý çarptýðýnda aþaðý git
+            velocity.x = 0;// YukarÃ½ Ã§arptÃ½Ã°Ã½nda aÃ¾aÃ°Ã½ git
         }
         else if (overlapBottom < overlapLeft && overlapBottom < overlapRight && overlapBottom < overlapTop) {
             position.y += 0.2f;
             setDirection(BYon::asagi);
             velocity.x = 0;
-            // Aþaðý çarptýðýnda yukarý git
+            // AÃ¾aÃ°Ã½ Ã§arptÃ½Ã°Ã½nda yukarÃ½ git
         }
         else {
             resetPosition(sf::Vector2f(500.f, 500.f));
@@ -179,7 +179,7 @@ void Ball::checkGoalCollision(const sf::RectangleShape& goal) {
             
         }
 
-        maxSpeed *= 0.99f;  // X ekseninde hýz azalýr
+        maxSpeed *= 0.99f;  // X ekseninde hÃ½z azalÃ½r
 
 
     }
