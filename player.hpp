@@ -12,16 +12,15 @@ enum class Yon {
 };
 class player {
 protected:
-	bool moving = false;
+	
 	sf::RectangleShape kare;
-	Yon yon = Yon::sag;
+	Yon yon ;
 	sf::Vector2f place;
 public:
 	
 	player(sf::Vector2f place);
 	virtual void hareket();
-	void setMoving(bool state);
-	virtual bool isMoving();
+	
 	
 	void setYon(Yon newyon);
 	Yon getYon();
