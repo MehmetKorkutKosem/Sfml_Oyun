@@ -38,13 +38,7 @@ sf::RectangleShape& player::getShape()
 
 
 
-void player::setMoving(bool state) {
-    moving = state;
-}
 
-bool player::isMoving() {
-    return moving;
-}
 
 
 
