@@ -349,7 +349,7 @@ try{
 		// Eğer top kale 2 ile çarpıştıysa skor artır
             if (kale2->checkCollisionWithWall(ball.getShape())) {
                 if ((kale2->checkCollisionWithWall(ball.getShape()) && (oyuncu1->checkCollisionWithCircle(ball.getShape()) || oyuncu2->checkCollisionWithCircle(ball.getShape()))) != true) {
-                    score1 += 1;
+                    score2 += 1;
                     
                 }
 
