@@ -6,69 +6,71 @@
 #include "kale.hpp"
 #include "timer.hpp"
 #include"texture.hpp"
-
+//Oyuncu nesnelerinin tanımlanması
 player* oyuncu1 = new player1({ 924, 475 });
 player* oyuncu2 = new player2({ 90, 475 });
+// Kale nesnelerinin tanımlanması
 Kale* kale1 = new Kale();
 Kale* kale2 = new Kale(sf::Vector2f(935, 350));
-
+// Zamanlayıcıların tanımlanması
 Timer sayac(5.f);
 Timer sayac1(5.f);
 Timer enlargeCooldown(10.f);
 Timer enlargeCooldown1(10.f);
 Timer enlargeCooldown2(10.f);
 Timer enlargeCooldown3(10.f);
+// Arka plan ve yazı fontu tanımlamaları
 TextureManager backgroundTexture;
 sf::Font font;
 sf::Text scoreText1;
-sf::Text winnerText;    
+sf::Text winnerText;   // Kazananı gösteren yazı  
 // Player 1 score
 
 ;// New cooldown timer for goal enlargement
-
+// Top nesnesi
 Ball ball(0);
 
 sf::RectangleShape dortgen;
-
+// Uygulama sınıfı kurucusu
 uygulama::uygulama() {
-    enlargeCooldown.reset();  // Ba�lang��ta bekleme s�resini s�f�rl�yoruz
+    enlargeCooldown.reset();  // Bekleme süresi sıfırlanıyor
     enlargeCooldown1.reset();
-     std::srand(static_cast<unsigned>(std::time(0))); 
+     std::srand(static_cast<unsigned>(std::time(0))); // Rastgelelik için zaman ayarı
      if (!backgroundTexture.loadFromFile("D:/saha.png")) {
          std::cerr << "Failed to load background texture!" << std::endl;
-         // Handle error
+          // Hata işleme
      }
      if (!font.loadFromFile("C:/Windows/fonts/arial.ttf")) {
          std::cerr << "Failed to load font!" << std::endl;
      }
 
-     // Configure Player 1 score text
+     // Oyuncu 1 skoru için yazı ayarları
      scoreText1.setFont(font);
      scoreText1.setCharacterSize(30);
      scoreText1.setFillColor(sf::Color::Magenta);
      scoreText1.setPosition(50, 20); // Position on the screen
 
-     // Configure Player 2 score text
+    // Oyuncu 2 skoru için yazı ayarları 
    
 }
-
+// Uygulama sınıfı yıkıcısı
 uygulama::~uygulama() {
     delete oyuncu1;
     delete oyuncu2;
     delete kale1;
     delete kale2;
 }
-
+// Klavye tuşlarına basılma işlemleri
 void uygulama::pressKey(sf::Keyboard::Key tus) {
     if (tus == sf::Keyboard::Numpad1) {
         if (enlargeCooldown2.isTimeUp()) {
             int minX = 110, maxX = 900;
             int minY = 100, maxY = 900;
 
-            // Rastgele X ve Y koordinatlar�
-            float randomX = static_cast<float>(std::rand() % (maxX - minX + 1) + minX);  // X koordinat�n� rastgele belirle
-            float randomY = static_cast<float>(std::rand() % (maxY - minY + 1) + minY);  // Y koordinat�n� rastgele belirle
-            // Y koordinat�n� rastgele belirle
+            // Rastgele X ve Y koordinatlarý
+            float randomX = static_cast<float>(std::rand() % (maxX - minX + 1) + minX);  // X koordinatýný rastgele belirle
+            float randomY = static_cast<float>(std::rand() % (maxY - minY + 1) + minY);  // Y koordinatýný rastgele belirle
+            // Y koordinatýný rastgele belirle
 
             // Topun yeni pozisyonunu ayarla
             ball.resetPosition(sf::Vector2f(randomX, randomY));
@@ -83,10 +85,10 @@ void uygulama::pressKey(sf::Keyboard::Key tus) {
             int minX = 110, maxX = 900;
             int minY = 100, maxY = 900;
 
-            // Rastgele X ve Y koordinatlar�
-            float randomX = static_cast<float>(std::rand() % (maxX - minX + 1) + minX);  // X koordinat�n� rastgele belirle
-            float randomY = static_cast<float>(std::rand() % (maxY - minY + 1) + minY);  // Y koordinat�n� rastgele belirle
-            // Y koordinat�n� rastgele belirle
+            // Rastgele X ve Y koordinatlarý
+            float randomX = static_cast<float>(std::rand() % (maxX - minX + 1) + minX);  // X koordinatýný rastgele belirle
+            float randomY = static_cast<float>(std::rand() % (maxY - minY + 1) + minY);  // Y koordinatýný rastgele belirle
+            // Y koordinatýný rastgele belirle
 
             // Topun yeni pozisyonunu ayarla
             ball.resetPosition(sf::Vector2f(randomX, randomY));
@@ -100,9 +102,9 @@ void uygulama::pressKey(sf::Keyboard::Key tus) {
     if (tus == sf::Keyboard::Numpad0) {
         if (enlargeCooldown.isTimeUp()) {
             kale1->set({ 10, 600 }, { 65, 200 });
-            sayac.reset();// Kale b�y�tme i�lemi
+            sayac.reset();// Kale büyütme iþlemi
             enlargeCooldown.reset();
-            // Bekleme s�resi s�f�rlan�yor
+            // Bekleme süresi sýfýrlanýyor
         }// Check cooldown
           // Reset cooldown after enlargement
     }
@@ -110,9 +112,9 @@ void uygulama::pressKey(sf::Keyboard::Key tus) {
     if (tus == sf::Keyboard::R) {  // Check cooldown
         if (enlargeCooldown1.isTimeUp()) {
             kale2->set({ 10, 600 }, { 935, 200 });
-            sayac1.reset();// Kale b�y�tme i�lemi
+            sayac1.reset();// Kale büyütme iþlemi
             enlargeCooldown1.reset();
-            // Bekleme s�resi s�f�rlan�yor
+            // Bekleme süresi sýfýrlanýyor
         }  // Reset cooldown after enlargement
     }
 
@@ -123,6 +125,7 @@ void uygulama::pressKey(sf::Keyboard::Key tus) {
             }
         }
     }
+	// "F" tuşu ile oyuncu 2 topa vuruyor
     if (tus == sf::Keyboard::F) {
         if ((oyuncu1->checkCollisionWithCircle(ball.getShape()) && oyuncu2->checkCollisionWithCircle(ball.getShape())) != true) {
             if (oyuncu2->checkCollisionWithCircle(ball.getShape())) {
@@ -130,6 +133,7 @@ void uygulama::pressKey(sf::Keyboard::Key tus) {
             }
         }
     }
+	// Oyuncu 2 yönlendirme tuşları (WASD)
     if (tus == sf::Keyboard::D) {
         
         oyuncu2->setYon(Yon::sag);
@@ -150,6 +154,7 @@ void uygulama::pressKey(sf::Keyboard::Key tus) {
         ;
        
     }
+	 // Oyuncu 1 yönlendirme tuşları (Ok tuşları)
     if (tus == sf::Keyboard::Right) {
         oyuncu1->setYon(Yon::sag);
         
@@ -171,24 +176,24 @@ void uygulama::pressKey(sf::Keyboard::Key tus) {
       
     }
 }
-
+// Klavye tuşları serbest bırakıldığında yapılacak işlemler
 void uygulama::depressKey(sf::Keyboard::Key tus) {
 
 }
-
+// Mouse tıklama olayları
 void uygulama::pressClick(sf::Mouse::Button button) {}
 
 void uygulama::depressClick(sf::Mouse::Button button) {}
-
+// Mouse hareket olayları
 void uygulama::move(sf::Event::MouseMoveEvent move) {
     std::cout << move.x << "----" << move.y << std::endl;
 }
-
+// Oyun çerçevesi oluşturma
 void uygulama::createFreame() {
     update();
     draw();
 }
-
+// Çizim işlemleri
 void uygulama::draw() {
     
     window.clear();
@@ -203,7 +208,7 @@ void uygulama::draw() {
     window.display();
   
 }
-
+// Güncelleme işlemleri
 void uygulama::update() {
     backgroundTexture.scaleToWindow(window,{500,500}, { 1000,1000 });
     scoreText1.setString("Red " + std::to_string(score2)+"-" + std::to_string(score1)+" Blue");
@@ -213,7 +218,7 @@ void uygulama::update() {
     oyuncu2->hareket();
     ball.move();
 }
-
+// Pencere oluşturma
 void uygulama::create(int weight, int height) {
     window.create(weight, height);
     window.mouseMove(std::bind(&uygulama::move, this, std::placeholders::_1));
@@ -239,53 +244,59 @@ void uygulama::ready(int fps) {
             createFreame();
             sayac.update();
             sayac1.update();
+		// Eğer oyuncu 1'in skoru 4'e ulaştıysa oyunu bitir
             if (score1 == 4) {
                 winnerText.setFont(font);
                 winnerText.setCharacterSize(20);
                 winnerText.setFillColor(sf::Color::Blue);
                 winnerText.setString("Oyuncu 1 win!");
-                winnerText.setPosition(450, 20);  // Kazanan mesaj�n� ekrana yerle�tir
-                window.draw(winnerText);  // Kazanan� ekrana yazd�r
-                window.display();  // Ekran� g�ncelle
-                sf::sleep(sf::seconds(2));  // 2 saniye boyunca kazanan� g�ster
+                winnerText.setPosition(450, 20);  // Kazanan mesajýný ekrana yerleþtir
+                window.draw(winnerText);  // Kazananý ekrana yazdýr
+                window.display();  // Ekraný güncelle
+                sf::sleep(sf::seconds(2));  // 2 saniye boyunca kazananý göster
                 window.closeWindow();  // Oyunu bitir
             }
+		 // Eğer oyuncu 2'nin skoru 4'e ulaştıysa oyunu bitir
             if (score2 == 4) {
                 winnerText.setFont(font);
                 winnerText.setCharacterSize(20);
                 winnerText.setFillColor(sf::Color::Red);
                 winnerText.setString("Oyuncu 2 win!");
-                winnerText.setPosition(450, 20);  // Kazanan mesaj�n� ekrana yerle�tir
-                window.draw(winnerText);  // Kazanan� ekrana yazd�r
-                window.display();  // Ekran� g�ncelle
-                sf::sleep(sf::seconds(2));  // 2 saniye boyunca kazanan� g�ster
+                winnerText.setPosition(450, 20);  // Kazanan mesajýný ekrana yerleþtir
+                window.draw(winnerText);  // Kazananý ekrana yazdýr
+                window.display();  // Ekraný güncelle
+                sf::sleep(sf::seconds(2));  // 2 saniye boyunca kazananý göster
                 window.closeWindow();  // Oyunu bitir
             }
-            enlargeCooldown.update();
+            enlargeCooldown.update();// Kale genişletme sürelerini güncelle
             enlargeCooldown1.update();
             enlargeCooldown2.update();
-            enlargeCooldown3.update();// Update the cooldown timer
+            enlargeCooldown3.update();
 
-            // 3 saniye ge�tikten sonra kale eski boyutuna d�ns�n
+            // 3 saniye geçtikten sonra kale eski boyutuna dönsün
             if (sayac.isTimeUp()) {
                 kale1->set({ 10, 300 }, { 65, 350 }); // Eski boyut
             }
             if (sayac1.isTimeUp()) {
                 kale2->set({ 10, 300 }, { 935, 350 }); // Eski boyut
             }
+		// Oyuncu 1 top ile çarpıştıysa çarpışmayı çöz
 
             if (oyuncu1->checkCollisionWithCircle(ball.getShape())) {
                 oyuncu1->resolveCollisioncircle(ball.getShape());
             }
+		// Oyuncu 2 top ile çarpıştıysa çarpışmayı çöz
             if (oyuncu2->checkCollisionWithCircle(ball.getShape())) {
                 oyuncu2->resolveCollisioncircle(ball.getShape());
             }
+		// Oyuncular birbirleriyle çarpıştıysa çarpışmayı çöz
             if (oyuncu2->checkCollisionWithWall(oyuncu1->getShape())) {
                 oyuncu2->resolveCollision(oyuncu1->getShape());
             }
             if (oyuncu1->checkCollisionWithWall(oyuncu2->getShape())) {
                 oyuncu1->resolveCollision(oyuncu2->getShape());
             }
+		 // Oyuncular kale ile çarpıştıysa çarpışmayı çöz
 
             if (oyuncu1->checkCollisionWithWall(kale1->getShape())) {
                 oyuncu1->resolveCollision(kale1->getShape());
@@ -299,6 +310,7 @@ void uygulama::ready(int fps) {
             else {
                 oyuncu1->resolveCollision(kale2->getShape());
             }
+		 // Eğer top kale 1 ile çarpıştıysa skor artır
 
             if (kale1->checkCollisionWithWall(ball.getShape())) {
 				if ((kale1->checkCollisionWithWall(ball.getShape()) && (oyuncu1->checkCollisionWithCircle(ball.getShape()) || oyuncu2->checkCollisionWithCircle(ball.getShape())))!=true) {
@@ -307,6 +319,7 @@ void uygulama::ready(int fps) {
 				}
                 
             }
+		// Eğer top kale 2 ile çarpıştıysa skor artır
             if (kale2->checkCollisionWithWall(ball.getShape())) {
                 if ((kale2->checkCollisionWithWall(ball.getShape()) && (oyuncu1->checkCollisionWithCircle(ball.getShape()) || oyuncu2->checkCollisionWithCircle(ball.getShape()))) != true) {
                     score1 += 1;
@@ -315,18 +328,18 @@ void uygulama::ready(int fps) {
 
             }
 
-            ball.checkGoalCollision(kale1->getShape());
-            ball.checkGoalCollision(kale2->getShape());
-            oyuncu1->resetPosition(ball);
-            oyuncu2->resetPosition(ball);
-            ball.rstTrf();
-            ball.checkCollisionWithWall(oyuncu2->getShape());
-            ball.checkCollisionWithWall(oyuncu1->getShape());
+            ball.checkGoalCollision(kale1->getShape());// Top kale 1 ile çarpıştı mı kontrol et
+            ball.checkGoalCollision(kale2->getShape());// Top kale 2 ile çarpıştı mı kontrol et
+            oyuncu1->resetPosition(ball);// Oyuncu 1'i yeniden konumlandır
+            oyuncu2->resetPosition(ball);// Oyuncu 2'yi yeniden konumlandır
+            ball.rstTrf();// Topun durumunu sıfırla
+            ball.checkCollisionWithWall(oyuncu2->getShape());// Top, oyuncu 2 ile çarpıştı mı kontrol et
+            ball.checkCollisionWithWall(oyuncu1->getShape());// Top, oyuncu 1 ile çarpıştı mı kontrol et
 
-            clock.restart();
+            clock.restart();// Zamanlayıcıyı yeniden başlat
         }
         else {
-            sf::sleep(freameTime - elapsedTime);
+            sf::sleep(freameTime - elapsedTime);// Gerekli süre kadar bekle
         }
     }
 }
