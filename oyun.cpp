@@ -263,6 +263,7 @@ try{
     float tfps = 1.0f / fps;
     freameTime = sf::seconds(tfps);
     while (window.iswindowOpen()) {
+   try{	    
         window.eventControl();
 
         sf::Time elapsedTime = clock.getElapsedTime();
@@ -367,8 +368,16 @@ try{
         else {
             sf::sleep(freameTime - elapsedTime);// Gerekli süre kadar bekle
         }
+      } 
+      catch (const std::exception& e) {
+    std::cerr << "Kritik oyun döngüsü hatası: " << e.what() << std::endl;
+    exit(EXIT_FAILURE);  // Critical error exit
+}
+
     }
-	 catch (...) {
-     std::cerr << "Oyun döngüsü sırasında bir hata oluştu!" << std::endl;
- }
+}
+  catch (const std::exception& e) {
+        std::cerr << "Oyun başlatılırken bir hata oluştu: " << e.what() << std::endl;
+        exit(EXIT_FAILURE);  // Başlatma hatası durumunda programı sonlandır
+    }
 }
