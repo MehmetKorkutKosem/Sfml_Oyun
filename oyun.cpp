@@ -186,7 +186,7 @@ void uygulama::pressClick(sf::Mouse::Button button) {}
 void uygulama::depressClick(sf::Mouse::Button button) {}
 // Mouse hareket olayları
 void uygulama::move(sf::Event::MouseMoveEvent move) {
-    std::cout << move.x << "----" << move.y << std::endl;
+    
 }
 // Oyun çerçevesi oluşturma
 void uygulama::createFreame() {
