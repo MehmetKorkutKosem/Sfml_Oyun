@@ -6,10 +6,6 @@ void player2::hareket()
 {
     sf::Vector2f a = kare.getSize();
 
-    if (!moving) return;
-
-    std::cout << a.x << "----" << a.y << std::endl;
-
     switch (yon) {
     case Yon::sag:
         if (place.x + a.x < 1000) {
@@ -69,28 +65,28 @@ void player2::resolveCollision(const sf::RectangleShape& wall)
             place.x -= overlapLeft;  // sola  iter
         }
         else if (overlapRight < overlapLeft && overlapRight < overlapTop && overlapRight < overlapBottom) {
-            place.x += overlapRight;  // saða  iter
+            place.x += overlapRight;  // saÃ°a  iter
         }
         else if (overlapTop < overlapLeft && overlapTop < overlapRight && overlapTop < overlapBottom) {
-            place.y -= overlapTop;  // yukarý iter
+            place.y -= overlapTop;  // yukarÃ½ iter
         }
         else if (overlapBottom < overlapLeft && overlapBottom < overlapRight && overlapBottom < overlapTop) {
-            place.y += overlapBottom;  // aþaðý iter
+            place.y += overlapBottom;  // aÃ¾aÃ°Ã½ iter
         }
     }
 }
 
 bool player2::checkCollisionWithWall(const sf::RectangleShape& wall)
 {
-    sf::FloatRect playerBounds = kare.getGlobalBounds();  // Player'ýn bounding box'ý
-    sf::FloatRect wallBounds = wall.getGlobalBounds();    // Wall'ýn bounding box'ý
+    sf::FloatRect playerBounds = kare.getGlobalBounds();  // Player'Ã½n bounding box'Ã½
+    sf::FloatRect wallBounds = wall.getGlobalBounds();    // Wall'Ã½n bounding box'Ã½
 
     return playerBounds.intersects(wallBounds);
 }
 bool player2::checkCollisionWithCircle(const sf::CircleShape& wall)
 {
-    sf::FloatRect playerBounds = kare.getGlobalBounds();  // Player'ýn bounding box'ý
-    sf::FloatRect wallBounds = wall.getGlobalBounds();    // Wall'ýn bounding box'ý
+    sf::FloatRect playerBounds = kare.getGlobalBounds();  // Player'Ã½n bounding box'Ã½
+    sf::FloatRect wallBounds = wall.getGlobalBounds();    // Wall'Ã½n bounding box'Ã½
 
     return playerBounds.intersects(wallBounds);
 }
@@ -111,13 +107,13 @@ void player2::resolveCollisioncircle(const sf::CircleShape& wall)
             place.x -= 1;  // sola  iter
         }
         else if (overlapRight < overlapLeft && overlapRight < overlapTop && overlapRight < overlapBottom) {
-            place.x += 1;  // saða  iter
+            place.x += 1;  // saÃ°a  iter
         }
         else if (overlapTop < overlapLeft && overlapTop < overlapRight && overlapTop < overlapBottom) {
-            place.y -= 1; // yukarý iter
+            place.y -= 1; // yukarÃ½ iter
         }
         else if (overlapBottom < overlapLeft && overlapBottom < overlapRight && overlapBottom < overlapTop) {
-            place.y += 1;  // aþaðý iter
+            place.y += 1;  // aÃ¾aÃ°Ã½ iter
         }
     }
 }
