@@ -13,8 +13,8 @@ public:
 	Yon getYon();
 	void resetPosition(Ball& top);
 	void hareket();
-    void setMoving(bool state);
-	bool isMoving();
+  
+	
 	void resolveCollision(const sf::RectangleShape& wall);
 	bool checkCollisionWithWall(const sf::RectangleShape& wall);
 
