@@ -33,24 +33,30 @@ Ball ball(0);
 sf::RectangleShape dortgen;
 // Uygulama sınıfı kurucusu
 uygulama::uygulama() {
+try{
     enlargeCooldown.reset();  // Bekleme süresi sıfırlanıyor
     enlargeCooldown1.reset();
      std::srand(static_cast<unsigned>(std::time(0))); // Rastgelelik için zaman ayarı
      if (!backgroundTexture.loadFromFile("D:/saha.png")) {
-         std::cerr << "Failed to load background texture!" << std::endl;
+          throw std::runtime_error("Arka plan dokusu yüklenemedi!");
           // Hata işleme
      }
      if (!font.loadFromFile("C:/Windows/fonts/arial.ttf")) {
-         std::cerr << "Failed to load font!" << std::endl;
+         throw std::runtime_error("Font yüklenemedi!");
      }
 
      // Oyuncu 1 skoru için yazı ayarları
+	// Oyuncu 2 skoru için yazı ayarlar
      scoreText1.setFont(font);
      scoreText1.setCharacterSize(30);
      scoreText1.setFillColor(sf::Color::Magenta);
      scoreText1.setPosition(50, 20); // Position on the screen
-
-    // Oyuncu 2 skoru için yazı ayarları 
+}
+	
+     catch (const std::exception& e) {
+     std::cerr << "Hata: " << e.what() << std::endl;
+     exit(EXIT_FAILURE);
+ }
    
 }
 // Uygulama sınıfı yıkıcısı
@@ -62,6 +68,7 @@ uygulama::~uygulama() {
 }
 // Klavye tuşlarına basılma işlemleri
 void uygulama::pressKey(sf::Keyboard::Key tus) {
+try{	
     if (tus == sf::Keyboard::Numpad1) {
         if (enlargeCooldown2.isTimeUp()) {
             int minX = 110, maxX = 900;
@@ -176,6 +183,10 @@ void uygulama::pressKey(sf::Keyboard::Key tus) {
       
     }
 }
+	 catch (...) {
+     std::cerr << "Bir tuş işlemi sırasında hata oluştu!" << std::endl;
+ }
+}
 // Klavye tuşları serbest bırakıldığında yapılacak işlemler
 void uygulama::depressKey(sf::Keyboard::Key tus) {
 
@@ -195,7 +206,7 @@ void uygulama::createFreame() {
 }
 // Çizim işlemleri
 void uygulama::draw() {
-    
+try{   
     window.clear();
     backgroundTexture.draw(window);
     oyuncu2->playdraw(window);
@@ -206,20 +217,30 @@ void uygulama::draw() {
     window.draw(scoreText1);
    
     window.display();
+}
+	  catch (...) {
+      std::cerr << "Çizim sırasında bir hata oluştu!" << std::endl;
+  }
   
 }
 // Güncelleme işlemleri
 void uygulama::update() {
-    backgroundTexture.scaleToWindow(window,{500,500}, { 1000,1000 });
-    scoreText1.setString("Red " + std::to_string(score2)+"-" + std::to_string(score1)+" Blue");
+try{
+     backgroundTexture.scaleToWindow(window,{500,500}, { 1000,1000 });
+     scoreText1.setString("Red " + std::to_string(score2)+"-" + std::to_string(score1)+" Blue");
     
 
-    oyuncu1->hareket();
-    oyuncu2->hareket();
-    ball.move();
+     oyuncu1->hareket();
+     oyuncu2->hareket();
+     ball.move();
+}
+	catch (...) {
+    std::cerr << "Güncelleme sırasında bir hata oluştu!" << std::endl;
+}
 }
 // Pencere oluşturma
 void uygulama::create(int weight, int height) {
+try{
     window.create(weight, height);
     window.mouseMove(std::bind(&uygulama::move, this, std::placeholders::_1));
     window.mouseAddDepress(std::bind(&uygulama::pressClick, this, std::placeholders::_1));
@@ -227,8 +248,13 @@ void uygulama::create(int weight, int height) {
     window.addpress(std::bind(&uygulama::pressKey, this, std::placeholders::_1));
     window.addDepress(std::bind(&uygulama::depressKey, this, std::placeholders::_1));
 }
+	  catch (...) {
+      std::cerr << "Pencere oluşturulurken bir hata oluştu!" << std::endl;
+  }
+}
 
 void uygulama::ready(int fps) {
+try{
     if (fps <= 0) {
         std::cerr << "FPS cannot be zero or negative. Setting default to 60." << std::endl;
         fps = 60;
@@ -342,4 +368,7 @@ void uygulama::ready(int fps) {
             sf::sleep(freameTime - elapsedTime);// Gerekli süre kadar bekle
         }
     }
+	 catch (...) {
+     std::cerr << "Oyun döngüsü sırasında bir hata oluştu!" << std::endl;
+ }
 }
