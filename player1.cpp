@@ -11,7 +11,7 @@ void player1::hareket()
     case Yon::sag:
         std::cout << "Right" << std::endl;
       if(place.x+ a.x < 1000){
-          place.x += 3.f;
+          place.x += 2.f;
         
         }
         break;
@@ -19,21 +19,21 @@ void player1::hareket()
     case Yon::sol:
 
         if (place.x > 0) {
-            place.x -= 3.f;
+            place.x -= 2.f;
         }
         break;
 
     case Yon::yukari:
 
         if (place.y > 0) {
-            place.y -= 5.f;
+            place.y -= 2.f;
         }
         break;
 
     case Yon::asagi:
 
         if (place.y + a.y < 1000) {
-            place.y += 5.f;
+            place.y += 2.f;
         }
         break;
     }
@@ -41,16 +41,9 @@ void player1::hareket()
 
 }
 
-void player1::setMoving(bool state)
-{
-    std::cout << "calisiyor" << std::endl;
-    moving = state;
-}
 
-bool player1::isMoving()
-{
-    return moving;
-}
+
+
 
 void player1::resolveCollision(const sf::RectangleShape& wall)
 {
@@ -153,9 +146,9 @@ Yon player1::getYon()
 void player1::resetPosition(Ball& top) {
     if (top.trf) {
         // Ball has entered the goal area, reset it to the starting position
-        place = { 924,475 };
+        place = { 922,475 };
         kare.setPosition(place);
-        moving = false;
+       setYon(Yon::sag);
         
     }
 }
